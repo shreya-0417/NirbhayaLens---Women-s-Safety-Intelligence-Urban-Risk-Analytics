@@ -75,7 +75,7 @@ The result is that the districts where all three failures coincide — **high re
 
 | # | Objective | Delivered as |
 |---|-----------|--------------|
-| 1 | Build a clean district-year panel from four heterogeneous government sources | `data/cleaned/master_crime_data_clean.csv` (3,601 rows) |
+| 1 | Build a clean district-year panel from four heterogeneous government sources | `data/cleaned/master_crime_data_clean.csv` (3,976 rows) |
 | 2 | Quantify under-reporting as a measurable **Justice Gap** | `data/final/justice_gap_district.csv` |
 | 3 | Construct a transparent 0–100 **Risk Index** with documented weights | `data/final/master_risk_scores.csv` |
 | 4 | Rank districts and states, and flag the worst-performing tier | `outputs/top10_dangerous_districts_2024.csv`, `data/final/state_justice_gap.csv` |
@@ -228,7 +228,7 @@ Notebook `notebooks/01_data_cleaning.ipynb` builds the master panel:
 5. **Survey join & imputation.** NFHS-5 spousal-violence and help-seeking percentages are attached at district level; missing values are imputed with the **year + state mean** so no district is dropped from the index.
 6. **Rate derivation.** `Crime_Rate` is total recorded violence per 100k of projected population; `Police_Vacancy_Rate` comes from BPRD strength versus sanctioned posts.
 7. **Justice Gap.** `Spousal_Violence_Percent − Sought_Help_Percent`, clamped at zero.
-8. **Export.** `data/cleaned/master_crime_data_clean.csv` (3,601 rows) → loaded into SQLite as `crime_data`.
+8. **Export.** `data/cleaned/master_crime_data_clean.csv` (3,976 rows) → loaded into SQLite as `crime_data`. The committed database holds 3,601 of those rows (it predates the final 2024 load — see [Limitations](#20-limitations)); re-running notebook 02 rebuilds it from the CSV.
 
 **Risk Index construction (notebook 02, step 3.6):** each of the three dimensions is min–max normalised within the year, then combined as
 
@@ -257,7 +257,7 @@ Verified coverage in the committed outputs: **2021–2024**, **36 states/UTs** i
 
 ## 11. SQL Analysis
 
-SQLite is the analytical engine (`data/cleaned/women_safety.db`, tables `crime_data` and `risk_scores`, 3,601 rows each). The notebook demonstrates, with documented business rationale for each query:
+SQLite is the analytical engine (`data/cleaned/women_safety.db`, tables `crime_data` and `risk_scores`, 3,601 rows each in the committed copy). The notebook demonstrates, with documented business rationale for each query:
 
 | Technique | Where used | Purpose |
 |-----------|-----------|---------|
@@ -414,8 +414,8 @@ NirbhayaLens---Women-s-Safety-Intelligence-Urban-Risk-Analytics/
 │   │   ├── nfhs/                # NFHS-5 district & state indicators
 │   │   └── census/              # Census 2011 district population
 │   ├── cleaned/
-│   │   ├── master_crime_data_clean.csv   # Master panel (3,601 rows)
-│   │   └── women_safety.db               # SQLite: crime_data, risk_scores
+│   │   ├── master_crime_data_clean.csv   # Master panel (3,976 rows)
+│   │   └── women_safety.db               # SQLite: crime_data, risk_scores (3,601 rows each)
 │   └── final/                   # Analytical marts consumed by Power BI
 │       ├── master_risk_scores.csv
 │       ├── justice_gap_district.csv
@@ -479,6 +479,7 @@ These are properties of the current implementation, stated so results are not ov
 - **Threshold mismatch.** No district reaches the 75-point CRITICAL threshold, so the Critical Red Zones page and its KPIs are effectively empty in the current data. Either the tier thresholds or the index scaling needs recalibration.
 - **The index is capacity-dominated.** With r ≈ 0.87 against vacancy and justice gap but ≈ 0 against crime rate, the ranking is close to a policing-and-reporting index. The 40/30/30 weights were chosen by judgement, not derived from sensitivity analysis.
 - **Crime rate is small in magnitude.** The committed `Crime_Rate` values sit in single digits per 100k while a handful of districts (notably Delhi North) show values in the hundreds, which compresses the normalised crime component.
+- **The committed warehouse lags the marts.** `women_safety.db` holds 3,601 rows while `master_crime_data_clean.csv` and the risk tables hold 3,976 — the database was last rebuilt before the final 2024 load, so 2024 is only partially present in SQLite. The CSV marts and the dashboard are built from the complete panel; re-running notebook 02 restores parity.
 - **Aggregate rows survive into the marts.** 36 "Total Districts" rows per year (state aggregates) are present in `master_risk_scores.csv`; the dashboard filters some of them out, which is why on-page district counts (942) differ from raw row counts.
 - **YoY export contains artefacts.** Some rows carry `prev_year == Year`, and state-aggregate rows appear alongside districts. Treat momentum figures as indicative; the dashboard's worst-year-increase KPI (637.45) reflects one such artefact.
 - **Justice Gap assumes comparability.** The metric subtracts a help-seeking percentage from a spousal-violence percentage drawn from different NFHS-5 modules with different reference populations.
@@ -499,6 +500,7 @@ These are properties of the current implementation, stated so results are not ov
 - Normalise crime rate on a log scale to stop a few high-outlier districts compressing the distribution.
 - Add a Python-based equivalent of the dashboard (Plotly/Dash) so the visuals are reproducible without Power BI Desktop.
 - Publish a small data-quality report (row counts, null rates, unmatched district names) alongside the marts.
+- Rebuild the committed SQLite database from the current CSV so the warehouse (3,601 rows) matches the marts (3,976 rows).
 
 ---
 
