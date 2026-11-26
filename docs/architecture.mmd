@@ -1,0 +1,74 @@
+%% NirbhayaLens — pipeline architecture
+%% Editable source for docs/architecture.png
+%% Render: npx -y @mermaid-js/mermaid-cli -i docs/architecture.mmd -o docs/architecture.png -w 1800 -b white
+flowchart LR
+    subgraph SRC["1. Data sources — data/raw"]
+        direction TB
+        A1["NCRB Crime in India<br/>district tables<br/>2021–2024 (.xlsx)"]
+        A2["BPRD<br/>police strength<br/>by state (.csv)"]
+        A3["NFHS-5<br/>violence & help-seeking<br/>(.xlsx / .csv)"]
+        A4["Census 2011<br/>district population<br/>(.xlsx)"]
+    end
+
+    subgraph PY["2. Python cleaning — notebook 01"]
+        direction TB
+        B1["Dynamic NCRB parser<br/>state banner + S.No header detection"]
+        B2["Name harmonisation<br/>+ state-mean imputation"]
+        B3["Census join, 1.15x projection<br/>crime-rate derivation"]
+    end
+
+    C[("3. SQLite warehouse<br/>women_safety.db<br/>crime_data · risk_scores<br/>3,601 rows")]
+
+    subgraph SQL["4. SQL analytics — notebook 02"]
+        direction TB
+        D1["Exploratory CTE queries<br/>coverage, bands, rankings"]
+        D2["NTILE quartiles<br/>exploratory prototype"]
+        D3["LAG / RANK<br/>YoY momentum"]
+        D4["Weighted Risk Index<br/>0.40 crime · 0.30 vacancy · 0.30 justice gap"]
+    end
+
+    subgraph OUT["5. Analytical marts — data/final + outputs"]
+        direction TB
+        E1["master_risk_scores.csv"]
+        E2["justice_gap_district.csv"]
+        E3["yoy_trend_analysis.csv"]
+        E4["triple_failure_zones.csv"]
+    end
+
+    F["6. Power BI dashboard<br/>4 pages · DAX · year slicer"]
+    G["7. Business insight<br/>district & state risk intelligence"]
+
+    A1 --> B1
+    A2 --> B2
+    A3 --> B2
+    A4 --> B3
+    B1 --> B2
+    B2 --> B3
+    B3 --> C
+    C --> D1
+    C --> D3
+    D1 --> D2
+    D2 --> D4
+    D3 --> D4
+    D4 --> E1
+    D4 --> E2
+    D4 --> E4
+    D3 --> E3
+    E1 --> F
+    E2 --> F
+    E3 --> F
+    E4 --> F
+    F --> G
+
+    classDef src fill:#e8f0fe,stroke:#1a73e8,color:#0b2a5b
+    classDef py fill:#fff4e5,stroke:#e8710a,color:#5c2c00
+    classDef db fill:#e6f4ea,stroke:#137333,color:#0b3d1c
+    classDef sql fill:#f3e8fd,stroke:#8430ce,color:#3c1361
+    classDef mart fill:#fce8e6,stroke:#c5221f,color:#5c0f0d
+    classDef bi fill:#fff9c4,stroke:#b08a00,color:#4a3c00
+    class A1,A2,A3,A4 src
+    class B1,B2,B3 py
+    class C db
+    class D1,D2,D3,D4 sql
+    class E1,E2,E3,E4 mart
+    class F,G bi
