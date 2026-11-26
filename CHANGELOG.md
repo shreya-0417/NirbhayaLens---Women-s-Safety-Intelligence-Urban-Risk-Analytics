@@ -14,7 +14,7 @@ First public release of the migrated and rebranded repository.
 - `docs/architecture.mmd` — editable Mermaid source for the pipeline diagram.
 - `docs/architecture.png` — exported architecture diagram.
 - `screenshots/` — genuine dashboard captures (`dashboard-overview`, `dashboard-kpis`, `dashboard-analysis`, `dashboard-details`, `dashboard-trends`).
-- `CONTRIBUTING.md`, `CHANGELOG.md` and an MIT `LICENSE` that preserves the original author's attribution.
+- `CONTRIBUTING.md`, `CHANGELOG.md`, an MIT `LICENSE` and a `NOTICE` file recording authorship attribution and the datasets' provenance and terms.
 - `.gitignore` entries for virtual environments, local env files and notebook checkpoints.
 
 ### Changed

@@ -446,6 +446,7 @@ NirbhayaLens---Women-s-Safety-Intelligence-Urban-Risk-Analytics/
 ├── CONTRIBUTING.md
 ├── CHANGELOG.md
 ├── LICENSE
+├── NOTICE                       # Authorship attribution + data notice
 ├── requirements.txt
 └── README.md
 ```
@@ -515,6 +516,6 @@ These are properties of the current implementation, stated so results are not ov
 
 ## 23. Licence
 
-Released under the [MIT License](LICENSE). The original author permitted reuse of the analysis and code with attribution, which is preserved in [Credits](#22-credits--acknowledgements) and in the licence file.
+Released under the [MIT License](LICENSE). The original author permitted reuse of the analysis and code with attribution, which is preserved in [Credits](#22-credits--acknowledgements), in the licence file and in [NOTICE](NOTICE).
 
 The MIT licence covers **code and documentation only**. The government datasets under `data/raw/` remain the property of their respective publishers and are included for reproducibility; the Power BI report and derived CSVs may be reused under the same terms as the code, with attribution to the original author.

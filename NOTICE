@@ -1,0 +1,33 @@
+NirbhayaLens — attribution and data notice
+==========================================
+
+Code and documentation
+----------------------
+The analytical implementation, notebooks, SQL logic, datasets' curation and the
+Power BI dashboard were created by Diyashi Roy (https://github.com/diac04).
+
+Repository migration, rebranding, documentation, architecture diagram and
+presentation rebuild were carried out by Shreya (https://github.com/shreya-0417).
+
+Both are covered by the MIT licence in LICENSE. Keep this attribution in
+derived works.
+
+Data
+----
+The files under data/raw/ are published by Government of India agencies:
+
+  * National Crime Records Bureau — "Crime in India" 2021–2024
+  * Bureau of Police Research and Development — "Data on Police Organisations"
+  * International Institute for Population Sciences — National Family Health
+    Survey, 5th round (NFHS-5, 2019–21)
+  * Office of the Registrar General & Census Commissioner — Census of India 2011
+
+They remain subject to their publishers' own terms of use and are redistributed
+here solely so the analysis can be reproduced. The MIT licence does not grant
+rights over those datasets beyond what their publishers permit.
+
+Citation
+--------
+If you use this work, cite the original publishers above and reference this
+repository:
+https://github.com/shreya-0417/NirbhayaLens---Women-s-Safety-Intelligence-Urban-Risk-Analytics

@@ -1,7 +1,7 @@
 MIT License
 
-Copyright (c) 2026 Diyashi Roy — original analysis, notebooks, SQL logic, datasets and Power BI dashboard
-Copyright (c) 2026 Shreya (shreya-0417) — repository migration, rebranding, documentation and presentation
+Copyright (c) 2026 Diyashi Roy
+Copyright (c) 2026 Shreya (shreya-0417)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Data notice
-
-The datasets under data/raw/ are published by Government of India agencies
-(National Crime Records Bureau, Bureau of Police Research and Development,
-International Institute for Population Sciences for NFHS-5, and the Office of
-the Registrar General & Census Commissioner for Census 2011). They remain
-subject to their publishers' own terms of use and are redistributed here solely
-for reproducibility of the analysis. This licence does not grant rights over
-those datasets beyond what their publishers permit.
-
-Attribution for the analytical implementation is documented in README.md
-(section "Credits & Acknowledgements") and must be preserved in derived works.
